@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfólio</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --accent: #4aa8ff;
+    --accent2: #ff6b35;
+    --white: #ffffff;
+    --dim: rgba(255,255,255,0.6);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: #020a14;
+    color: var(--white);
+    font-family: 'Raleway', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── VIDEO HERO ── */
+  #hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  #bg-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    /* 
+      INSTRUÇÃO: Troque o src abaixo pelo vídeo que você baixar do Pexels.
+      Exemplo: src="seu-video.mp4"
+      Vídeos sugeridos no Pexels:
+        - "fighter jet mountains" → https://www.pexels.com/search/videos/fighter%20jet/
+        - "snowy mountains aerial" → https://www.pexels.com/search/videos/snowy%20mountains%20aerial/
+    */
+    src="https://rr4---sn-bg0e6ne7.googlevideo.com/videoplayback?expire=1775802397&ei=vUPYadPgL6aYsfIP0PfUoAk&ip=191.96.202.117&id=o-ADDsZDInrahuOFdt2Xz4T-5ieBp9uIKyvs7wTqHCqPMK&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&bui=AUUZDGI9OSh4S0nOAuvRphudKH2JsLt7HX-o9pKJfKCgR7Qg3eL7tpM6h8kA5Hli8drDjcy6F_1ejvDr&spc=jlWavQCtUdR1S1R7O4jEA97vzuWaq_2rDP261JykajHfMpKaP5jiyj7HeyeuIoDhHl8&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=14.883&lmt=1726267760168134&fexp=51565115,51565681&c=ANDROID&txp=5430434&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AHEqNM4wRAIgZMuwKHSPhG2SwwX8CJ1sTYuCOMKQlejYa5nrFdE-HpQCIHhEqoajfujI9MQUw6mV3aZrI-3UCsfrFJcigQblNhiJ&rm=sn-nx5zs7l,sn-igug5on2vguxn-nq0e7e&rrc=104,110,191&req_id=3b339b701eafa3ee&cps=189&ipbypass=yes&rms=rdu,au&redirect_counter=3&cm2rm=sn-gpvlr7e&cms_redirect=yes&cmsv=e&met=1775780804,&mh=le&mip=45.234.214.239&mm=34&mn=sn-bg0e6ne7&ms=ltu&mt=1775780434&mv=m&mvi=4&pl=24&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAJjVP3KywI56m85mUa9ZKViVNxWw_0kMkL2SjUwF0CW0AiEA5dOjhUormXF4L_AfAvutE3s2gXs3htWbS9b9U3LmEkQ%3D";
+  }
+
+  /* overlay escuro sobre o vídeo para legibilidade */
+  #hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(2,10,20,0.35) 0%,
+      rgba(2,10,20,0.15) 40%,
+      rgba(2,10,20,0.6) 80%,
+      rgba(2,10,20,1) 100%
+    );
+    z-index: 1;
+  }
+
+  /* scan line animada */
+  #hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.03) 3px,
+      rgba(0,0,0,0.03) 4px
+    );
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  /* ── HUD CORNERS ── */
+  .hud {
+    position: absolute;
+    font-family: 'Raleway', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: rgba(74,168,255,0.55);
+    text-transform: uppercase;
+    z-index: 3;
+    line-height: 1.8;
+  }
+  .hud-tl { top: 28px; left: 32px; }
+  .hud-tr { top: 28px; right: 32px; text-align: right; }
+  .hud-bl { bottom: 28px; left: 32px; }
+  .hud-br { bottom: 28px; right: 32px; text-align: right; }
+
+  .hud-corner {
+    position: absolute;
+    width: 18px; height: 18px;
+    z-index: 3;
+  }
+  .hud-corner svg { width: 100%; height: 100%; }
+  .hud-corner.tl { top: 22px; left: 22px; }
+  .hud-corner.tr { top: 22px; right: 22px; transform: scaleX(-1); }
+  .hud-corner.bl { bottom: 22px; left: 22px; transform: scaleY(-1); }
+  .hud-corner.br { bottom: 22px; right: 22px; transform: scale(-1); }
+
+  /* ── HERO CONTENT ── */
+  .hero-content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    animation: fadeUp 1.2s ease both;
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 5px;
+    color: var(--accent);
+    text-transform: uppercase;
+    border: 1px solid rgba(74,168,255,0.35);
+    padding: 6px 18px;
+    margin-bottom: 24px;
+    animation: fadeUp 1s ease 0.2s both;
+  }
+
+  .hero-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(64px, 10vw, 120px);
+    line-height: 0.9;
+    letter-spacing: 8px;
+    color: #fff;
+    text-shadow: 0 0 60px rgba(74,168,255,0.3);
+    animation: fadeUp 1s ease 0.4s both;
+  }
+
+  .hero-name span { color: var(--accent); }
+
+  .hero-role {
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: 6px;
+    color: var(--dim);
+    text-transform: uppercase;
+    margin-top: 16px;
+    animation: fadeUp 1s ease 0.6s both;
+  }
+
+  .hero-divider {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    margin: 32px auto 0;
+    animation: fadeUp 1s ease 0.8s both;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 48px;
+    z-index: 10;
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 4px;
+    color: #fff;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--dim);
+    text-decoration: none;
+    transition: color 0.3s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--accent);
+    transition: width 0.3s;
+  }
+
+  .nav-links a:hover { color: #fff; }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 100px 48px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 5vw, 60px);
+    letter-spacing: 3px;
+    line-height: 1;
+    margin-bottom: 48px;
+  }
+
+  /* ── SOBRE ── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .about-text {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.9;
+    color: rgba(255,255,255,0.75);
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .stat {
+    border: 1px solid rgba(74,168,255,0.2);
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .stat:hover { border-color: rgba(74,168,255,0.6); }
+
+  .stat::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--accent);
+  }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-top: 4px;
+  }
+
+  /* ── PROJETOS ── */
+  #projetos { background: rgba(74,168,255,0.03); }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+  }
+
+  .project-card {
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.3s, transform 0.3s;
+    background: rgba(255,255,255,0.02);
+  }
+
+  .project-card:hover {
+    border-color: rgba(74,168,255,0.4);
+    transform: translateY(-4px);
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--accent), var(--accent2));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .project-card:hover::before { opacity: 1; }
+
+  .project-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    color: rgba(74,168,255,0.12);
+    position: absolute;
+    top: 16px; right: 24px;
+    line-height: 1;
+  }
+
+  .project-tag {
+    display: inline-block;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(74,168,255,0.3);
+    padding: 3px 10px;
+    margin-bottom: 16px;
+  }
+
+  .project-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+
+  .project-desc {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--dim);
+  }
+
+  .project-arrow {
+    margin-top: 24px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: opacity 0.3s, transform 0.3s;
+  }
+
+  .project-card:hover .project-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* ── SKILLS ── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  .skill-item {
+    padding: 20px 24px;
+    border: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: border-color 0.3s;
+  }
+
+  .skill-item:hover { border-color: rgba(74,168,255,0.3); }
+
+  .skill-name {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .skill-bar-wrap {
+    width: 60px;
+    height: 2px;
+    background: rgba(255,255,255,0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .skill-bar {
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    background: var(--accent);
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 1s ease;
+  }
+
+  .skill-item.visible .skill-bar { transform: scaleX(1); }
+
+  /* ── CONTATO ── */
+  .contact-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .contact-info p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.9;
+    color: var(--dim);
+    margin-bottom: 32px;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--dim);
+    text-decoration: none;
+    margin-bottom: 16px;
+    transition: color 0.3s;
+  }
+
+  .contact-link:hover { color: var(--accent); }
+
+  .contact-link::before {
+    content: '';
+    display: block;
+    width: 20px; height: 1px;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .contact-form { display: flex; flex-direction: column; gap: 16px; }
+
+  .contact-form input,
+  .contact-form textarea {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #fff;
+    font-family: 'Raleway', sans-serif;
+    font-size: 13px;
+    padding: 14px 18px;
+    outline: none;
+    transition: border-color 0.3s;
+    resize: none;
+  }
+
+  .contact-form input:focus,
+  .contact-form textarea:focus { border-color: rgba(74,168,255,0.5); }
+
+  .contact-form input::placeholder,
+  .contact-form textarea::placeholder { color: rgba(255,255,255,0.25); letter-spacing: 2px; font-size: 11px; }
+
+  .btn-send {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .btn-send:hover { background: var(--accent); color: #020a14; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    section { padding: 60px 24px; }
+    .about-grid, .contact-wrap { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVEGAÇÃO -->
+<nav>
+  <a href="#hero" class="nav-logo">E<span>.</span>Salles</a>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#projetos">Projetos</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+</nav>
+
+<!-- HERO COM VÍDEO -->
+<section id="hero">
+
+  <!--
+    ════════════════════════════════════════════════
+    TROQUE A URL ABAIXO PELO SEU VÍDEO:
+    1. Vá em https://www.pexels.com/search/videos/fighter%20jet/
+    2. Baixe o vídeo em MP4
+    3. Coloque o arquivo na mesma pasta que este HTML
+    4. Troque o src para: src="nome-do-seu-video.mp4"
+    ════════════════════════════════════════════════
+  -->
+  <video id="bg-video" autoplay muted loop playsinline
+    src="https://rr4---sn-bg0e6ne7.googlevideo.com/videoplayback?expire=1775802397&ei=vUPYadPgL6aYsfIP0PfUoAk&ip=191.96.202.117&id=o-ADDsZDInrahuOFdt2Xz4T-5ieBp9uIKyvs7wTqHCqPMK&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&bui=AUUZDGI9OSh4S0nOAuvRphudKH2JsLt7HX-o9pKJfKCgR7Qg3eL7tpM6h8kA5Hli8drDjcy6F_1ejvDr&spc=jlWavQCtUdR1S1R7O4jEA97vzuWaq_2rDP261JykajHfMpKaP5jiyj7HeyeuIoDhHl8&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=14.883&lmt=1726267760168134&fexp=51565115,51565681&c=ANDROID&txp=5430434&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AHEqNM4wRAIgZMuwKHSPhG2SwwX8CJ1sTYuCOMKQlejYa5nrFdE-HpQCIHhEqoajfujI9MQUw6mV3aZrI-3UCsfrFJcigQblNhiJ&rm=sn-nx5zs7l,sn-igug5on2vguxn-nq0e7e&rrc=104,110,191&req_id=3b339b701eafa3ee&cps=189&ipbypass=yes&rms=rdu,au&redirect_counter=3&cm2rm=sn-gpvlr7e&cms_redirect=yes&cmsv=e&met=1775780804,&mh=le&mip=45.234.214.239&mm=34&mn=sn-bg0e6ne7&ms=ltu&mt=1775780434&mv=m&mvi=4&pl=24&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAJjVP3KywI56m85mUa9ZKViVNxWw_0kMkL2SjUwF0CW0AiEA5dOjhUormXF4L_AfAvutE3s2gXs3htWbS9b9U3LmEkQ%3D">
+  </video>
+
+  <!-- HUD corners -->
+  <div class="hud-corner tl">
+    <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1 17V1H17" stroke="#4aa8ff" stroke-opacity="0.5" stroke-width="1"/>
+    </svg>
+  </div>
+  <div class="hud-corner tr">
+    <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1 17V1H17" stroke="#4aa8ff" stroke-opacity="0.5" stroke-width="1"/>
+    </svg>
+  </div>
+  <div class="hud-corner bl">
+    <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1 17V1H17" stroke="#4aa8ff" stroke-opacity="0.5" stroke-width="1"/>
+    </svg>
+  </div>
+  <div class="hud-corner br">
+    <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1 17V1H17" stroke="#4aa8ff" stroke-opacity="0.5" stroke-width="1"/>
+    </svg>
+  </div>
+
+  <div class="hud hud-tl">Alt 32.000 ft<br>Mach 1.8</div>
+  <div class="hud hud-tr">Sys online<br>Nav lock</div>
+  <div class="hud hud-bl">Lat 45.2°N · Lon 12.4°W</div>
+  <div class="hud hud-br">Portfólio v1.0</div>
+
+  <div class="hero-content">
+    <div class="badge">Desenvolvedor Full Stack</div>
+    <h1 class="hero-name">Everton<br><span>Salles</span></h1>
+    <p class="hero-role">Construindo experiências que importam</p>
+    <div class="hero-divider"></div>
+  </div>
+
+</section>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="reveal">
+    <p class="section-label">// 01</p>
+    <h2 class="section-title">Sobre mim</h2>
+  </div>
+  <div class="about-grid reveal">
+    <p class="about-text">
+      Desenvolvedor full stack com foco em criar produtos digitais rápidos, bonitos e funcionais.
+      Trabalho com React, Node.js e banco de dados relacionais e não-relacionais.
+      Apaixonado por performance, design de interfaces e experiências que fazem sentido para o usuário.<br><br>
+      Atualmente disponível para projetos freelance e oportunidades CLT.
+    </p>
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-num">3+</div>
+        <div class="stat-label">mes de exp.</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">24</div>
+        <div class="stat-label">Projetos</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">12</div>
+        <div class="stat-label">Clientes</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Entregues</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJETOS -->
+<section id="projetos">
+  <div class="reveal">
+    <p class="section-label">// 02</p>
+    <h2 class="section-title">Projetos</h2>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card reveal">
+      <span class="project-num">01</span>
+      <div class="project-tag">SaaS · React</div>
+      <h3 class="project-title">Dashboard Analytics</h3>
+      <p class="project-desc">Plataforma de visualização de dados em tempo real com gráficos interativos e relatórios automáticos.</p>
+      <div class="project-arrow">Ver projeto →</div>
+    </div>
+    <div class="project-card reveal">
+      <span class="project-num">02</span>
+      <div class="project-tag">E-commerce · Next.js</div>
+      <h3 class="project-title">Loja Virtual</h3>
+      <p class="project-desc">Loja completa com carrinho, pagamento via Stripe e painel administrativo integrado.</p>
+      <div class="project-arrow">Ver projeto →</div>
+    </div>
+    <div class="project-card reveal">
+      <span class="project-num">03</span>
+      <div class="project-tag">API · Node.js</div>
+      <h3 class="project-title">REST API Escalável</h3>
+      <p class="project-desc">API com autenticação JWT, cache Redis e documentação Swagger para uso em produção.</p>
+      <div class="project-arrow">Ver projeto →</div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="reveal">
+    <p class="section-label">// 03</p>
+    <h2 class="section-title">Skills</h2>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-item reveal"><span class="skill-name">React</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:90%"></div></div></div>
+    <div class="skill-item reveal"><span class="skill-name">Node.js</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:85%"></div></div></div>
+    <div class="skill-item reveal"><span class="skill-name">TypeScript</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:80%"></div></div></div>
+    <div class="skill-item reveal"><span class="skill-name">Next.js</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:78%"></div></div></div>
+    <div class="skill-item reveal"><span class="skill-name">PostgreSQL</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:75%"></div></div></div>
+    <div class="skill-item reveal"><span class="skill-name">Docker</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:70%"></div></div></div>
+    <div class="skill-item reveal"><span class="skill-name">AWS</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:65%"></div></div></div>
+    <div class="skill-item reveal"><span class="skill-name">Figma</span><div class="skill-bar-wrap"><div class="skill-bar" style="width:72%"></div></div></div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="reveal">
+    <p class="section-label">// 04</p>
+    <h2 class="section-title">Contato</h2>
+  </div>
+  <div class="contact-wrap">
+    <div class="contact-info reveal">
+      <p>Tem um projeto em mente ou quer bater um papo sobre tecnologia? Me manda uma mensagem — respondo em até 24h.</p>
+      <a href="evertonmota12@email.com" class="contact-link">evertondamota12@email.com</a>
+      <a href="https://www.linkedin.com/in/everton-salles-566bb6195/" class="contact-link" target="_blank">LinkedIn</a>
+      <a href="https://github.com/EvertonSalles-Dev" class="contact-link" target="_blank">GitHub</a>
+    </div>
+    <form class="contact-form reveal" onsubmit="return false">
+      <input type="text" placeholder="Seu nome" />
+      <input type="email" placeholder="Seu e-mail" />
+      <textarea rows="5" placeholder="Sua mensagem"></textarea>
+      <button class="btn-send" type="submit">Enviar mensagem</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 João Silva</span>
+  <span>Feito com café e código</span>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal, .skill-item').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "potifi-portfolio",
+  "version": "1.0.0",
+  "description": "Portfolio Dev Web & Mobile - Deploy Vercel ready",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static site - no build needed'",
+    "start": "vercel dev"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "vercel": "latest"
+  }
+}
